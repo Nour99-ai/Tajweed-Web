@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Quran recite</title>
+    <meta
+      name="description"
+      content="This is a step-by-step way to improve your Quran reading skills."
+    />
+    <meta name="keywords" content="islam, quran, arabic, reading" />
+    <meta name="author" content="Nour" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%231a6c7a'/><text x='50%' y='55%' font-size='40' text-anchor='middle' fill='white' dy='.3em'>ق</text></svg>"
+    />
+    <link rel="stylesheet" href="/original Tajwee-Web/css/style.css" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+  </head>
+  <script src="/original Tajwee-Web/index.js"></script>
+
+  <body>
+    <!-- Navbar -->
+    <div class="navbar-container">
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+          <a class="navbar-brand" href="">
+            <img
+              src="/original Tajwee-Web/images/logo.png"
+              alt="Logo"
+              width="30"
+              height="24"
+              class="d-inline-block align-text-top"
+            />
+            <span class="navbar-text">Main page</span>
+          </a>
+        </div>
+      </nav>
+    </div>
+    <!-- Islamic Geometric Decoration -->
+    <div class="islamic-decoration">
+      <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <!-- Outer square frame -->
+        <rect
+          x="50"
+          y="50"
+          width="300"
+          height="300"
+          fill="none"
+          stroke="#1a6c7a"
+          stroke-width="8"
+          opacity="0.8"
+        />
+        <rect
+          x="40"
+          y="40"
+          width="320"
+          height="320"
+          fill="none"
+          stroke="#2a8a9a"
+          stroke-width="4"
+          opacity="0.6"
+        />
+
+        <!-- Inner diamond -->
+        <polygon
+          points="200,70 330,200 200,330 70,200"
+          fill="none"
+          stroke="#1a6c7a"
+          stroke-width="6"
+          opacity="0.7"
+        />
+
+        <!-- 8-pointed star -->
+        <g transform="translate(200,200)">
+          <!-- Star points -->
+          <polygon
+            points="0,-100 30,-30 100,0 30,30 0,100 -30,30 -100,0 -30,-30"
+            fill="#40bcd8"
+            opacity="0.6"
+            stroke="#1a6c7a"
+            stroke-width="3"
+          />
+
+          <!-- Inner octagon -->
+          <polygon
+            points="0,-70 50,-50 70,0 50,50 0,70 -50,50 -70,0 -50,-50"
+            fill="#8B4513"
+            opacity="0.7"
+            stroke="#D4AF37"
+            stroke-width="4"
+          />
+
+          <!-- Center star -->
+          <polygon
+            points="0,-40 15,-15 40,0 15,15 0,40 -15,15 -40,0 -15,-15"
+            fill="#D4AF37"
+            opacity="0.8"
+            stroke="#1a6c7a"
+            stroke-width="2"
+          />
+
+          <!-- Decorative circles -->
+          <circle cx="0" cy="-80" r="8" fill="#40bcd8" opacity="0.6" />
+          <circle cx="56" cy="-56" r="8" fill="#40bcd8" opacity="0.6" />
+          <circle cx="80" cy="0" r="8" fill="#40bcd8" opacity="0.6" />
+          <circle cx="56" cy="56" r="8" fill="#40bcd8" opacity="0.6" />
+          <circle cx="0" cy="80" r="8" fill="#40bcd8" opacity="0.6" />
+          <circle cx="-56" cy="56" r="8" fill="#40bcd8" opacity="0.6" />
+          <circle cx="-80" cy="0" r="8" fill="#40bcd8" opacity="0.6" />
+          <circle cx="-56" cy="-56" r="8" fill="#40bcd8" opacity="0.6" />
+
+          <!--geometric lines -->
+          <line
+            x1="-100"
+            y1="0"
+            x2="100"
+            y2="0"
+            stroke="#D4AF37"
+            stroke-width="2"
+            opacity="0.5"
+          />
+          <line
+            x1="0"
+            y1="-100"
+            x2="0"
+            y2="100"
+            stroke="#D4AF37"
+            stroke-width="2"
+            opacity="0.5"
+          />
+          <line
+            x1="-70"
+            y1="-70"
+            x2="70"
+            y2="70"
+            stroke="#D4AF37"
+            stroke-width="2"
+            opacity="0.5"
+          />
+          <line
+            x1="-70"
+            y1="70"
+            x2="70"
+            y2="-70"
+            stroke="#D4AF37"
+            stroke-width="2"
+            opacity="0.5"
+          />
+        </g>
+
+        <!-- Corner decorations -->
+        <circle
+          cx="80"
+          cy="80"
+          r="15"
+          fill="none"
+          stroke="#40bcd8"
+          stroke-width="3"
+          opacity="0.6"
+        />
+        <circle
+          cx="320"
+          cy="80"
+          r="15"
+          fill="none"
+          stroke="#40bcd8"
+          stroke-width="3"
+          opacity="0.6"
+        />
+        <circle
+          cx="320"
+          cy="320"
+          r="15"
+          fill="none"
+          stroke="#40bcd8"
+          stroke-width="3"
+          opacity="0.6"
+        />
+        <circle
+          cx="80"
+          cy="320"
+          r="15"
+          fill="none"
+          stroke="#40bcd8"
+          stroke-width="3"
+          opacity="0.6"
+        />
+      </svg>
+    </div>
+
+    <div class="content-wrapper">
+      <header id="header">
+        <h1>
+          Welcome to the Quran Reading Course
+          <span lang="ar">| مرحباً بكم في معهد القرآن الكريم</span>
+        </h1>
+        <p style="font-size: 1.1rem; margin-top: 0.5rem">
+          A step-by-step guide to improve your Quran recitation skills
+        </p>
+      </header>
+
+      <hr />
+
+      <h2>
+        This is a step-by-step way to improve your generous Quran reading skills
+        <span lang="ar"
+          >| هذه طريقة خطوة بخطوة لتحسين مهاراتك في قراءة القرآن الكريم</span
+        >
+      </h2>
+
+      <hr />
+
+      <div class="highlight">
+        <h1>
+          <span class="step-number">1</span>Step 1: Set your intentions
+          <span lang="ar">| الخطوة 1: تحديد النوايا</span>
+        </h1>
+        <h2>Examples <span lang="ar">| أمثلة</span></h2>
+        <ul>
+          <li>
+            <p>Increasing knowledge <span lang="ar">| زيادة العلم</span></p>
+          </li>
+          <li>
+            <p>Improving recitation <span lang="ar">| تحسين التلاوة</span></p>
+          </li>
+          <li>
+            <p>
+              Performing God's commands <span lang="ar">| أداء أوامر الله</span>
+            </p>
+          </li>
+          <li>
+            <p>
+              Obeying God and being dutiful to parents
+              <span lang="ar">| طاعة الله وبر الوالدين</span>
+            </p>
+          </li>
+          <li>
+            <p>
+              Benefit Muslims with this knowledge
+              <span lang="ar">| إفادة المسلمين بهذا العلم</span>
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <br />
+      <br />
+
+      <div class="highlight">
+        <h1>
+          <span class="step-number">2</span>Step 2: Learn the Arabic Alphabet
+          <span lang="ar">| الخطوة 2: تعلم الأبجدية العربية</span>
+        </h1>
+        <h3>
+          Before you can read the Quran
+          <span lang="ar">| قبل أن تتمكن من قراءة القرآن</span>
+        </h3>
+        <p>
+          You need to learn the Arabic alphabet
+          <span lang="ar">| تحتاج إلى تعلم الأبجدية العربية</span>
+        </p>
+        <p>
+          Here are some resources to help you
+          <span lang="ar">| إليك بعض الموارد لمساعدتك</span>
+        </p>
+        <img
+          src="/original Tajwee-Web/images/ar-alphabet.png"
+          width="340"
+          height="200"
+          alt="Arabic Alphabet chart showing all Arabic letters"
+        />
+      </div>
+
+      <br />
+      <h2>Resources <span lang="ar">| الموارد</span></h2>
+      <div class="resources">
+        <ul>
+          <li id="alphabet">
+            <a href="https://youtu.be/LyzupN62MGA?si=dUqeo_cRT5i4fYc1"
+              >Arabic Alphabet</a
+            >
+          </li>
+          <li id="pronunciation">
+            <a href="https://youtu.be/8_60iWXl7dw"
+              >Arabic Alphabet pronunciation</a
+            >
+          </li>
+          <li id="letter-versions">
+            <a href="https://youtu.be/H-J4b67xAnA?si=i6skGEhb2be29-xu"
+              >Arabic Alphabet letter versions</a
+            >
+          </li>
+        </ul>
+        <br />
+      </div>
+
+      <div class="highlight">
+        <h2>Practice <span lang="ar">| ممارسة</span></h2>
+        <h3>Tips to Practice <span lang="ar">| نصائح للممارسة</span></h3>
+        <ul>
+          <li>
+            <p>
+              Read the Arabic alphabet daily
+              <span lang="ar">| اقرأ الأبجدية العربية يومياً</span>
+            </p>
+          </li>
+          <li>
+            <p>
+              Practice writing each letter
+              <span lang="ar">| تدرب على كتابة كل حرف</span>
+            </p>
+          </li>
+          <li>
+            <p>
+              Listen to native speakers
+              <span lang="ar">| استمع إلى الناطقين الأصليين</span>
+            </p>
+          </li>
+          <li>
+            <p>
+              Repeat after audio recordings
+              <span lang="ar">| كرر بعد التسجيلات الصوتية</span>
+            </p>
+          </li>
+          <li>
+            <p>
+              Join a study group or class
+              <span lang="ar">| انضم إلى مجموعة دراسة أو فصل دراسي</span>
+            </p>
+          </li>
+        </ul>
+      </div>
+
+      <hr />
+
+      <div class="highlight">
+        <h1>
+          <span class="step-number">3</span>Step 3: Learn the Tajweed Rules
+          <span lang="ar">| الخطوة 3: تعلم قواعد التجويد</span>
+        </h1>
+        <h2>What is Tajweed? <span lang="ar">| ما هو التجويد؟</span></h2>
+        <h3>
+          Tajweed is the set of rules for proper pronunciation during recitation
+          of the Quran
+          <span lang="ar"
+            >| التجويد هو مجموعة من القواعد للنطق الصحيح أثناء تلاوة
+            القرآن</span
+          >
+        </h3>
+        <h3>
+          It helps you read the Quran correctly and beautifully
+          <span lang="ar">| يساعدك على قراءة القرآن بشكل صحيح وجميل</span>
+        </h3>
+        <h2>
+          Why Learn Tajweed? <span lang="ar">| لماذا نتعلم التجويد؟</span>
+        </h2>
+        <p>
+          Learning Tajweed is essential for preserving the beauty and accuracy
+          of the Quran's recitation. It ensures that the words of Allah are
+          pronounced correctly, as they were revealed to the Prophet Muhammad
+          (peace be upon him). Tajweed helps avoid mistakes that could alter the
+          meaning of the Quranic verses and enhances the spiritual experience of
+          recitation.
+        </p>
+        <p>
+          By mastering Tajweed, you fulfill the responsibility of reciting the
+          Quran with excellence, as commanded in the Quran itself:
+          <strong>"...and recite the Quran with measured recitation."</strong>
+          (Surah Al-Muzzammil 73:4)
+        </p>
+        <p>
+          Tajweed also connects you to a long tradition of scholars and reciters
+          who have preserved the Quran's authenticity over centuries.
+        </p>
+        <h2>
+          <span lang="ar">لماذا نتعلم التجويد؟</span> | Why Learn Tajweed?
+        </h2>
+        <p lang="ar">
+          تعلم التجويد ضروري للحفاظ على جمال ودقة تلاوة القرآن الكريم. يضمن أن
+          تُنطق كلمات الله بشكل صحيح، كما أُوحي بها إلى النبي محمد (صلى الله
+          عليه وسلم). يساعد التجويد على تجنب الأخطاء التي قد تغير معنى آيات
+          القرآن الكريم ويعزز التجربة الروحية للتلاوة.
+        </p>
+        <p lang="ar">
+          بإتقان التجويد، تفي بمسؤولية تلاوة القرآن بإتقان، كما أُمر في القرآن
+          نفسه:<br />
+          <strong>"ورتل القرآن ترتيلاً"</strong> (سورة المزمل 73:4)<br />
+          <br />
+          يربطك التجويد أيضًا بتقليد طويل من العلماء والقراء الذين حافظوا على
+          أصالة القرآن الكريم على مر القرون.
+        </p>
+        <br />
+        <h2>
+          Hadiths about Quran Recitation
+          <span lang="ar">| الأحاديث عن تلاوة القرآن</span>
+        </h2>
+        <ul>
+          <li>
+            <p>
+              "The best of you are those who learn the Quran and teach it."
+              <span lang="ar">«خيركم من تعلم القرآن وعلمه»</span>
+              <br />
+            </p>
+            <p>[Sahih al-Bukhari]</p>
+          </li>
+          <li>
+            <p>
+              "Beautify the Quran with your voices."
+              <br /><span lang="ar">«زينوا القرآن بأصواتكم»</span>
+            </p>
+            <p>[Sunan Abi Dawood]</p>
+          </li>
+          <li>
+            <p>
+              "Whoever recites the Quran and learns it by heart, will be with
+              the noble righteous scribes."
+              <br /><span lang="ar"
+                >«الماهر بالقرآن مع السفرة الكرام البررة»</span
+              >
+            </p>
+            <p>[Sahih al-Bukhari]</p>
+          </li>
+          <li>
+            <p>
+              "Indeed, Allah loves that when any one of you does something, they
+              do it with excellence."
+              <br /><span lang="ar"
+                >«إن الله يحب إذا عمل أحدكم عملاً أن يتقنه»</span
+              >
+            </p>
+            <p>[Sunan al-Kubra]</p>
+          </li>
+          <li>
+            <p>
+              "Recite the Quran, for it will come as an intercessor for its
+              reciters on the Day of Resurrection."
+              <br /><span lang="ar"
+                >«اقرؤوا القرآن فإنه يأتي يوم القيامة شفيعاً لأصحابه»</span
+              >
+            </p>
+            <p>[Sahih Muslim]</p>
+          </li>
+          <li>
+            <p>
+              "The Quran is an intercessor, something given permission to
+              intercede, and it is rightfully believed in. Whoever puts it in
+              front of him, it will lead him to Paradise; whoever puts it behind
+              him, it will steer him to the Hellfire."
+              <br /><span lang="ar"
+                >«القرآن شافع مشفع، وماحل مصدق، من جعله أمامه قاده إلى الجنة،
+                ومن جعله خلف ظهره ساقه إلى النار»</span
+              >
+            </p>
+            <p>[Sunan Ibn Majah]</p>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
+      crossorigin="anonymous"
+    ></script>
+  </body>
+</html>

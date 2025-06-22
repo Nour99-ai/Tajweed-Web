@@ -1,0 +1,920 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+/* ===== CSS RESET & BASE STYLES ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Islamic Color Palette */
+  --primary-green: #1a6c7a;
+  --secondary-green: #2a8a9a;
+  --accent-teal: #40bcd8;
+  --gold: #d4af37;
+  --warm-gold: #b8860b;
+  --dark-brown: #8b4513;
+  --cream: #f5f5dc;
+  --light-cream: #fefefe;
+  --text-dark: #2c3e50;
+  --text-light: #34495e;
+  --border-light: #e0e0e0;
+  --shadow-light: rgba(0, 0, 0, 0.1);
+  --shadow-medium: rgba(0, 0, 0, 0.15);
+  --shadow-dark: rgba(0, 0, 0, 0.25);
+
+  /* Typography */
+  --font-primary: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --font-arabic: "Amiri", "Traditional Arabic", serif;
+  --font-size-base: 16px;
+  --line-height-base: 1.6;
+
+  /* Spacing */
+  --spacing-xs: 0.5rem;
+  --spacing-sm: 1rem;
+  --spacing-md: 1.5rem;
+  --spacing-lg: 2rem;
+  --spacing-xl: 3rem;
+
+  /* Border Radius */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: var(--font-size-base);
+}
+
+body {
+  font-family: var(--font-primary);
+  line-height: var(--line-height-base);
+  color: var(--text-dark);
+  background: linear-gradient(135deg, var(--light-cream) 0%, var(--cream) 100%);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: var(--spacing-sm);
+  color: var(--primary-green);
+}
+
+h1 {
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  margin-bottom: var(--spacing-md);
+}
+
+h2 {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+h3 {
+  font-size: clamp(1.3rem, 2.5vw, 1.7rem);
+}
+
+p {
+  margin-bottom: var(--spacing-sm);
+  color: var(--text-light);
+}
+
+/* Arabic Text Styling */
+[lang="ar"] {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  font-size: 1.1em;
+  color: var(--primary-green);
+  font-weight: 500;
+}
+
+/* ===== NAVBAR STYLES ===== */
+.navbar-container {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 20px var(--shadow-medium);
+}
+
+.navbar {
+  background: linear-gradient(
+    135deg,
+    var(--primary-green) 0%,
+    var(--secondary-green) 100%
+  ) !important;
+  padding: var(--spacing-sm) 0;
+  backdrop-filter: blur(10px);
+}
+
+.navbar-brand {
+  color: white !important;
+  font-weight: 600;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  transition: all 0.3s ease;
+}
+
+.navbar-brand:hover {
+  color: var(--accent-teal) !important;
+  transform: translateY(-2px);
+}
+
+.navbar-brand img {
+  border-radius: 50%;
+  box-shadow: 0 2px 10px var(--shadow-medium);
+  transition: transform 0.3s ease;
+}
+
+.navbar-brand:hover img {
+  transform: scale(1.1);
+}
+
+/* ===== ISLAMIC DECORATION ===== */
+.islamic-decoration {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: -1;
+  opacity: 0.03;
+  width: 80vw;
+  height: 80vh;
+  max-width: 800px;
+  max-height: 800px;
+  pointer-events: none;
+}
+
+.islamic-decoration svg {
+  width: 100%;
+  height: 100%;
+  animation: rotate 120s linear infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===== CONTENT WRAPPER ===== */
+.content-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--spacing-lg);
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== HEADER STYLES ===== */
+#header {
+  text-align: center;
+  padding: var(--spacing-xl) var(--spacing-lg);
+  background: linear-gradient(
+    135deg,
+    rgba(26, 108, 122, 0.1) 0%,
+    rgba(64, 188, 216, 0.1) 100%
+  );
+  border-radius: var(--radius-xl);
+  margin-bottom: var(--spacing-xl);
+  border: 2px solid rgba(26, 108, 122, 0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+#header::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle,
+    rgba(212, 175, 55, 0.1) 0%,
+    transparent 70%
+  );
+  animation: pulse 4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+#header h1 {
+  position: relative;
+  z-index: 2;
+  background: linear-gradient(135deg, var(--primary-green), var(--accent-teal));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  text-shadow: 0 2px 4px var(--shadow-light);
+}
+
+#header p {
+  position: relative;
+  z-index: 2;
+  font-size: 1.2rem;
+  color: var(--text-light);
+  font-style: italic;
+}
+
+/* ===== HIGHLIGHT SECTIONS ===== */
+.highlight {
+  background: white;
+  padding: var(--spacing-xl);
+  margin: var(--spacing-xl) 0;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 10px 30px var(--shadow-light);
+  border-left: 5px solid var(--gold);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.highlight:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px var(--shadow-medium);
+}
+
+.highlight::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--gold),
+    var(--primary-green),
+    var(--accent-teal)
+  );
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+/* ===== STEP NUMBERS ===== */
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  background: linear-gradient(135deg, var(--gold), var(--warm-gold));
+  color: white;
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin-right: var(--spacing-sm);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+  animation: bounce 2s ease-in-out infinite;
+}
+
+@keyframes bounce {
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+/* ===== LISTS ===== */
+ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+li {
+  position: relative;
+  padding: var(--spacing-sm) 0;
+  padding-left: var(--spacing-lg);
+  margin-bottom: var(--spacing-sm);
+  transition: all 0.3s ease;
+}
+
+li::before {
+  content: "✦";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--gold);
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+li:hover::before {
+  transform: translateY(-50%) scale(1.3);
+  color: var(--primary-green);
+}
+
+li:hover {
+  padding-left: calc(var(--spacing-lg) + 5px);
+}
+
+/* ===== RESOURCES SECTION ===== */
+.resources {
+  background: linear-gradient(
+    135deg,
+    rgba(64, 188, 216, 0.1),
+    rgba(26, 108, 122, 0.1)
+  );
+  padding: var(--spacing-lg);
+  border-radius: var(--radius-md);
+  margin: var(--spacing-lg) 0;
+}
+
+.resources ul li {
+  background: white;
+  margin-bottom: var(--spacing-sm);
+  border-radius: var(--radius-sm);
+  box-shadow: 0 2px 10px var(--shadow-light);
+  transition: all 0.3s ease;
+}
+
+.resources ul li:hover {
+  transform: translateX(10px);
+  box-shadow: 0 4px 20px var(--shadow-medium);
+}
+
+.resources a {
+  display: block;
+  padding: var(--spacing-md);
+  color: var(--primary-green);
+  text-decoration: none;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.resources a:hover {
+  color: var(--accent-teal);
+  background: linear-gradient(135deg, rgba(64, 188, 216, 0.1), transparent);
+}
+
+/* ===== IMAGES ===== */
+img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 25px var(--shadow-light);
+  transition: all 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 35px var(--shadow-medium);
+}
+
+/* ===== HORIZONTAL RULES ===== */
+hr {
+  border: none;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  margin: var(--spacing-xl) 0;
+  position: relative;
+}
+
+hr::after {
+  content: "❋";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--light-cream);
+  color: var(--gold);
+  padding: 0 var(--spacing-sm);
+  font-size: 1.5rem;
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, var(--primary-green), var(--accent-teal));
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, var(--accent-teal), var(--primary-green));
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: var(--spacing-md);
+  }
+
+  .highlight {
+    padding: var(--spacing-lg);
+    margin: var(--spacing-lg) 0;
+  }
+
+  #header {
+    padding: var(--spacing-lg);
+  }
+
+  .step-number {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+  }
+
+  .islamic-decoration {
+    width: 90vw;
+    height: 90vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-wrapper {
+    padding: var(--spacing-sm);
+  }
+
+  .highlight {
+    padding: var(--spacing-md);
+  }
+
+  #header {
+    padding: var(--spacing-md);
+  }
+
+  .navbar-brand {
+    font-size: 1.1rem;
+  }
+}
+
+/* ===== ACCESSIBILITY ===== */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .islamic-decoration svg {
+    animation: none;
+  }
+}
+
+/* Focus styles for keyboard navigation */
+a:focus,
+button:focus {
+  outline: 2px solid var(--accent-teal);
+  outline-offset: 2px;
+}
+
+/* ===== PRINT STYLES ===== */
+@media print {
+  .navbar-container,
+  .islamic-decoration {
+    display: none;
+  }
+
+  .content-wrapper {
+    max-width: none;
+    padding: 0;
+  }
+
+  .highlight {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid var(--border-light);
+  }
+}
+
+/* ===== LOADING ANIMATION ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.tajweed-section {
+  background: #f8fcfa;
+  border: 2px solid #40bcd8;
+  border-radius: 18px;
+  padding: 32px 28px 32px 28px;
+  margin: 40px 0;
+  box-shadow: 0 2px 12px rgba(64, 188, 216, 0.08);
+}
+
+.tajweed-section h1,
+.tajweed-section h2,
+.tajweed-section h3,
+.tajweed-section p,
+.tajweed-section ul {
+  margin-top: 18px;
+  margin-bottom: 18px;
+}
+
+.tajweed-section ul {
+  padding-left: 24px;
+}
+
+.tajweed-section li {
+  margin-bottom: 14px;
+}
+
+.tajweed-section [lang="ar"] {
+  font-family: "Amiri", serif;
+  font-size: 1.1em;
+  color: #1a6c7a;
+  margin-left: 8px;
+}
+
+.tajweed-section strong {
+  color: #1a6c7a;
+}
+
+.highlight {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.highlight:nth-child(even) {
+  animation-delay: 0.2s;
+}
+
+.highlight:nth-child(odd) {
+  animation-delay: 0.4s;
+}
+
+/* ===== SELECTION STYLING ===== */
+::selection {
+  background: rgba(64, 188, 216, 0.3);
+  color: var(--primary-green);
+}
+
+::-moz-selection {
+  background: rgba(64, 188, 216, 0.3);
+  color: var(--primary-green);
+}
+#header {
+  scroll-margin-top: 100px;
+}
+/* ===== SCROLL TO TOP BUTTON ===== */
+.arrow-up {
+  display: none; /* Hidden by default, shown with JS */
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  z-index: 1000;
+  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  font-size: 1.8rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(26, 108, 122, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0;
+  transform: translateY(20px) scale(0.8);
+  backdrop-filter: blur(10px);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+}
+
+.arrow-up-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.arrow-up:hover {
+  background: linear-gradient(135deg, var(--accent-teal), var(--primary-green));
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 8px 25px rgba(26, 108, 122, 0.5);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.arrow-up:active,
+.arrow-up-active {
+  transform: translateY(-1px) scale(0.95);
+  box-shadow: 0 4px 15px rgba(26, 108, 122, 0.6);
+  background: linear-gradient(135deg, var(--gold), var(--warm-gold));
+}
+
+.arrow-up::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, var(--gold), var(--accent-teal), var(--primary-green));
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.arrow-up:hover::before {
+  opacity: 0.7;
+  animation: rotate 2s linear infinite;
+}
+
+/* Pulse animation for attention */
+.arrow-up-visible {
+  animation: pulse-attention 3s ease-in-out infinite;
+}
+
+@keyframes pulse-attention {
+  0%, 100% {
+    box-shadow: 0 6px 20px rgba(26, 108, 122, 0.4);
+  }
+  50% {
+    box-shadow: 0 6px 20px rgba(26, 108, 122, 0.4), 0 0 0 10px rgba(26, 108, 122, 0.1);
+  }
+}
+
+/* Responsive design for scroll button */
+@media (max-width: 768px) {
+  .arrow-up {
+    width: 50px;
+    height: 50px;
+    font-size: 1.5rem;
+    bottom: 20px;
+    right: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .arrow-up {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+    bottom: 15px;
+    right: 15px;
+  }
+}
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f5f5f5;
+  padding: 2rem;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.islamic-decoration {
+  position: fixed;
+  right: -100px;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.15;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.islamic-decoration svg {
+  width: 300px;
+  height: 300px;
+  filter: drop-shadow(0 0 20px rgba(26, 108, 122, 0.3));
+}
+.navbar-container {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  scroll-behavior: smooth;
+}
+.content-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+header {
+  text-align: center;
+  padding: 2rem 0;
+  background: linear-gradient(90deg, hsl(189, 65%, 29%), #2a8a9a 80%);
+  color: white;
+  border-radius: 15px;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 25px rgba(26, 108, 122, 0.3);
+}
+
+header h1 {
+  font-size: 2.2rem;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  font-weight: bold;
+}
+
+h1,
+h2,
+h3 {
+  margin-bottom: 0.7em;
+  margin-top: 1.2em;
+  font-weight: bold;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+/* Highlight sections */
+.highlight {
+  background: linear-gradient(
+    135deg,
+    rgba(26, 108, 122, 0.05),
+    rgba(26, 108, 122, 0.1)
+  );
+  padding: 2rem;
+  border-radius: 15px;
+  margin: 2rem 0;
+  border-left: 5px solid hsl(189, 65%, 29%);
+  box-shadow: 0 4px 15px rgba(26, 108, 122, 0.1);
+}
+
+.highlight img {
+  float: right;
+  border: 5px solid #1a6c7a;
+  border-radius: 10px;
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  margin-left: 2rem;
+}
+
+.highlight img:hover {
+  box-shadow: 0 0 15px 5px rgba(26, 108, 122, 0.7);
+  transform: scale(1.05);
+}
+
+/* List styles */
+ul {
+  list-style-type: none;
+  padding-left: 1.5rem;
+}
+
+li {
+  margin: 1rem 0;
+  position: relative;
+}
+
+li::before {
+  content: "•";
+  color: #1a6c7a;
+  font-size: 1.5rem;
+  position: absolute;
+  left: -1.5rem;
+  top: -0.2rem;
+}
+
+/* Links */
+a {
+  color: #1a6c7a;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+a:hover {
+  color: #124d57;
+  text-decoration: underline;
+}
+
+/* Resources section */
+.resources {
+  background: linear-gradient(135deg, #e8f4f6, #f0f8fa);
+  padding: 2rem;
+  border-radius: 15px;
+  margin: 2rem 0;
+  box-shadow: 0 4px 15px rgba(26, 108, 122, 0.1);
+}
+
+/* Horizontal rule */
+hr {
+  border: none;
+  height: 3px;
+  background: linear-gradient(90deg, #1a6c7a, #2a8a9a);
+  margin: 2rem 0;
+  border-radius: 2px;
+}
+
+/* Arabic text */
+[lang="ar"] {
+  font-family: "Traditional Arabic", "Arial", sans-serif;
+  font-size: 1.2em;
+}
+
+/* Hadith quotes styling */
+.highlight li p {
+  font-style: italic;
+  margin: 0.5rem 0;
+}
+
+.highlight li p:last-child {
+  color: #666;
+  font-size: 0.9rem;
+  font-style: normal;
+}
+
+/* Additional styling for Tajweed rules */
+.highlight ul li p strong {
+  color: #1a6c7a;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.highlight ul li p {
+  margin: 0.5rem 0;
+  line-height: 1.5;
+}
+
+.resources ul li a {
+  font-weight: bold;
+  color: #124d57;
+  text-decoration: underline;
+  transition: color 0.3s ease, text-shadow 0.3s ease;
+}
+
+.resources ul li a:hover {
+  color: #1a6c7a;
+  text-shadow: 0 0 5px rgba(26, 108, 122, 0.7);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  body {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 1.8rem;
+  }
+
+  .highlight {
+    padding: 1.5rem;
+  }
+
+  .islamic-decoration {
+    display: none;
+  }
+}
+
+/* Additional decorative elements */
+.step-number {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, #1a6c7a, #2a8a9a);
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 40px;
+  font-weight: bold;
+  margin-right: 1rem;
+  box-shadow: 0 4px 10px rgba(26, 108, 122, 0.3);
+}
