@@ -1,946 +1,450 @@
-'use strict';
+"use strict";
 // Login functionality for Tajweed Web Application
 // Author: Nour
 // Description: Handles user authentication, form validation, and user experience enhancements
 
-const initializeLogin = () => {
-  // Get form elements
-  const loginForm = document.querySelector(".login-form");
-  const usernameInput = document.getElementById("username");
-  const passwordInput = document.getElementById("password");
-  const rememberCheckbox = document.getElementById("remember");
-  const loginButton = document.querySelector(".btn-login");
-  const forgotPasswordLink = document.querySelector(".forgot-password");
-  const registerLink = document.querySelector(".register-link");
-
-  // TODO: Integrate with backend authentication API here.
-
-  // Form validation rules
-  const validationRules = {
-    username: {
-      minLength: 3,
-      maxLength: 20,
-      pattern: /^[a-zA-Z0-9_]+$/,
-      message:
-        "Username must be 3-20 characters and contain only letters, numbers, and underscores",
-    },
-    password: {
-      minLength: 6,
-      maxLength: 50,
-      message: "Password must be at least 6 characters long",
-    },
-  };
-
-  // Add event listeners
-  if (loginForm) {
-    loginForm.addEventListener("submit", handleLogin);
-  }
-
-  if (usernameInput) {
-    usernameInput.addEventListener("input", () => validateField("username"));
-    usernameInput.addEventListener("blur", () => validateField("username"));
-    usernameInput.addEventListener("focus", clearFieldError);
-  }
-
-  if (passwordInput) {
-    passwordInput.addEventListener("input", () => validateField("password"));
-    passwordInput.addEventListener("blur", () => validateField("password"));
-    passwordInput.addEventListener("focus", clearFieldError);
-    passwordInput.addEventListener("keypress", handlePasswordKeypress);
-  }
-
-  if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener("click", handleForgotPassword);
-  }
-
-  if (registerLink) {
-    registerLink.addEventListener("click", handleRegisterClick);
-  }
-
-  // Load saved username if remember me was checked
-  loadSavedCredentials();
-
-  // Add input animations
-  addInputAnimations();
-
-  // Handle login form submission
-  const handleLogin = (event) => {
-    event.preventDefault();
-
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value;
-    const remember = rememberCheckbox.checked;
-
-    // Clear previous errors
-    clearAllErrors();
-
-    // Validate form
-    if (!validateForm()) {
-      showError("Please fix the errors above and try again.");
-      return;
-    }
-
-    // Show loading state
-    setLoadingState(true);
-
-    // Simulate API call delay
-    setTimeout(() => {
-      const user = authenticateUser(username, password);
-
-      if (user) {
-        handleSuccessfulLogin(user, remember);
-      } else {
-        handleFailedLogin();
-      }
-
-      setLoadingState(false);
-    }, 1500);
-  };
-
-  // Validate individual field
-  const validateField = (fieldName) => {
-    const input = document.getElementById(fieldName);
-    const value = input.value.trim();
-    const rules = validationRules[fieldName];
-
-    // Clear previous error
-    clearFieldError(input);
-
-    // Check if field is empty
-    if (!value) {
-      showFieldError(
-        input,
-        `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`
-      );
-      return false;
-    }
-
-    // Check minimum length
-    if (rules.minLength && value.length < rules.minLength) {
-      showFieldError(
-        input,
-        `${
-          fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
-        } must be at least ${rules.minLength} characters`
-      );
-      return false;
-    }
-
-    // Check maximum length
-    if (rules.maxLength && value.length > rules.maxLength) {
-      showFieldError(
-        input,
-        `${
-          fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
-        } must not exceed ${rules.maxLength} characters`
-      );
-      return false;
-    }
-
-    // Check pattern
-    if (rules.pattern && !rules.pattern.test(value)) {
-      showFieldError(input, rules.message);
-      return false;
-    }
-
-    // Show success state
-    showFieldSuccess(input);
-    return true;
-  };
-
-  // Validate entire form
-  const validateForm = () => {
-    const usernameValid = validateField("username");
-    const passwordValid = validateField("password");
-    return usernameValid && passwordValid;
-  };
-
-  // Authenticate user (replace with real backend call)
-  const authenticateUser = (username, password) => {
-    // TODO: Replace with real backend authentication logic
-    return null;
-  };
-
-  // Handle successful login
-  const handleSuccessfulLogin = (user, remember) => {
-    // Save credentials if remember me is checked
-    if (remember) {
-      localStorage.setItem("rememberedUsername", user.username);
-      localStorage.setItem("rememberMe", "true");
-    } else {
-      localStorage.removeItem("rememberedUsername");
-      localStorage.removeItem("rememberMe");
-      sessionStorage.setItem("sessionUsername", username);
-      sessionStorage.setItem("sessionPassword", password);
-    }
-
-    // Save user session
-    sessionStorage.setItem("currentUser", JSON.stringify(user));
-    sessionStorage.setItem("loginTime", new Date().toISOString());
-
-    // Show success message
-    showSuccessMessage(`Welcome back, ${user.name}! Redirecting...`);
-
-    // Redirect after delay
-    setTimeout(() => {
-      // In a real app, redirect to dashboard or main page
-      window.location.href = "../html/index.html";
-    }, 2000);
-  };
-
-  // Handle failed login
-  const handleFailedLogin = () => {
-    showError("Invalid username or password. Please try again.");
-
-    // Add shake animation to form
-    const formSection = document.querySelector(".form-section");
-    formSection.classList.add("shake");
-    setTimeout(() => {
-      formSection.classList.remove("shake");
-    }, 600);
-
-    // Clear password field
-    passwordInput.value = "";
-    passwordInput.focus();
-  };
-
-  // Handle password keypress (Enter to submit)
-  const handlePasswordKeypress = (event) => {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      loginForm.dispatchEvent(new Event("submit"));
-    }
-  };
-
-  // Handle forgot password click
-  const handleForgotPassword = (event) => {
-    event.preventDefault();
-
-    const username = usernameInput.value.trim();
-    if (!username) {
-      showInfo(
-        'Please enter your username first, then click "Forgot password?"'
-      );
-      usernameInput.focus();
-      return;
-    }
-
-    // Simulate password reset
-    showInfo(
-      `Password reset instructions have been sent to the email associated with "${username}".`
-    );
-  };
-
-  // Handle register link click
-  const handleRegisterClick = (event) => {
-    event.preventDefault();
-    showInfo(
-      "Registration feature coming soon!"
-    );
-  };
-
-  // Load saved credentials
-  const loadSavedCredentials = () => {
-    const rememberedUsername = localStorage.getItem("rememberedUsername");
-    const rememberMe = localStorage.getItem("rememberMe") === "true";
-
-    if (rememberMe && rememberedUsername) {
-      usernameInput.value = rememberedUsername;
-      rememberCheckbox.checked = true;
-    }
-  };
-
-  // Add input animations and enhancements
-  const addInputAnimations = () => {
-    const inputs = document.querySelectorAll(".form-control");
-
-    inputs.forEach((input) => {
-      // Add floating label effect
-      input.addEventListener("focus", function () {
-        this.parentElement.classList.add("focused");
-      });
-
-      input.addEventListener("blur", function () {
-        if (!this.value) {
-          this.parentElement.classList.remove("focused");
-        }
-      });
-
-      // Check if input has value on load
-      if (input.value) {
-        input.parentElement.classList.add("focused");
-      }
-    });
-  };
-
-  // Set loading state
-  const setLoadingState = (loading) => {
-    const btnText = loginButton.querySelector(".btn-text");
-    const btnIcon = loginButton.querySelector(".btn-icon");
-
-    if (loading) {
-      loginButton.disabled = true;
-      loginButton.classList.add("loading");
-      btnText.textContent = "Signing In...";
-      btnIcon.textContent = "⏳";
-    } else {
-      loginButton.disabled = false;
-      loginButton.classList.remove("loading");
-      btnText.textContent = "Sign In";
-      btnIcon.textContent = "→";
-    }
-  };
-
-  // Show field error
-  const showFieldError = (input, message) => {
-    input.classList.add("error");
-    input.classList.remove("success");
-
-    // Remove existing error message
-    const existingError = input.parentElement.querySelector(".error-message");
-    if (existingError) {
-      existingError.remove();
-    }
-
-    // Add error message
-    const errorDiv = document.createElement("div");
-    errorDiv.className = "error-message";
-    errorDiv.textContent = message;
-    input.parentElement.appendChild(errorDiv);
-  };
-
-  // Show field success
-  const showFieldSuccess = (input) => {
-    input.classList.add("success");
-    input.classList.remove("error");
-
-    // Remove error message
-    const errorMessage = input.parentElement.querySelector(".error-message");
-    if (errorMessage) {
-      errorMessage.remove();
-    }
-  };
-
-  // Clear field error
-  const clearFieldError = (input) => {
-    if (input.target) input = input.target; // Handle event object
-
-    input.classList.remove("error", "success");
-    const errorMessage = input.parentElement.querySelector(".error-message");
-    if (errorMessage) {
-      errorMessage.remove();
-    }
-  };
-
-  // Clear all errors
-  const clearAllErrors = () => {
-    const errorMessages = document.querySelectorAll(".error-message");
-    errorMessages.forEach((msg) => msg.remove());
-
-    const errorInputs = document.querySelectorAll(".form-control.error");
-    errorInputs.forEach((input) => input.classList.remove("error"));
-
-    const alertMessages = document.querySelectorAll(".alert-message");
-    alertMessages.forEach((msg) => msg.remove());
-  };
-
-  // Show error message
-  const showError = (message) => {
-    showAlert(message, "error");
-  };
-
-  // Show success message
-  const showSuccessMessage = (message) => {
-    showAlert(message, "success");
-  };
-
-  // Show info message
-  const showInfo = (message) => {
-    showAlert(message, "info");
-  };
-
-  // Show alert message
-  const showAlert = (message, type) => {
-    // Remove existing alerts
-    const existingAlerts = document.querySelectorAll(".alert-message");
-    existingAlerts.forEach((alert) => alert.remove());
-
-    // Create alert element
-    const alertDiv = document.createElement("div");
-    alertDiv.className = `alert-message alert-${type}`;
-    alertDiv.innerHTML = `
-            <span class="alert-icon">${getAlertIcon(type)}</span>
-            <span class="alert-text">${message}</span>
-            <button class="alert-close" onclick="this.parentElement.remove()">×</button>
-        `;
-
-    // Insert alert at the top of the form
-    const formSection = document.querySelector(".form-section");
-    formSection.insertBefore(alertDiv, formSection.firstChild);
-
-    // Auto-remove after delay (except for success messages)
-    if (type !== "success") {
-      setTimeout(() => {
-        if (alertDiv.parentElement) {
-          alertDiv.remove();
-        }
-      }, 5000);
-    }
-  };
-
-  // Get alert icon based on type
-  const getAlertIcon = (type) => {
-    const icons = {
-      error: "❌",
-      success: "✅",
-      info: "ℹ️",
-      warning: "⚠️",
-    };
-    return icons[type] || "ℹ️";
-  };
+// Global DOM Elements
+let loginForm, usernameInput, passwordInput, rememberCheckbox, loginButton;
+let forgotPasswordLink, registerLink;
+
+// Constants
+const AUTO_LOGOUT_HOURS = 48;
+const ALERT_TIMEOUT_MS = 5000;
+const REDIRECT_DELAY_MS = 2000;
+
+// Validation Rules
+const validationRules = {
+  username: {
+    minLength: 3,
+    maxLength: 20,
+    pattern: /^[a-zA-Z0-9_]+$/,
+    message:
+      "Username must be 3-20 characters and contain only letters, numbers, and underscores",
+  },
+  password: {
+    minLength: 6,
+    maxLength: 50,
+    message: "Password must be at least 6 characters long",
+  },
 };
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Initialize login functionality
-  initializeLogin();
-});
-  // Get form elements
-  const loginForm = document.querySelector(".login-form");
-  const usernameInput = document.getElementById("username");
-  const passwordInput = document.getElementById("password");
-  const rememberCheckbox = document.getElementById("remember");
-  const loginButton = document.querySelector(".btn-login");
-  const forgotPasswordLink = document.querySelector(".forgot-password");
-  const registerLink = document.querySelector(".register-link");
+// Alert Icons
+const alertIcons = {
+  error: "❌",
+  success: "✅",
+  info: "ℹ️",
+  warning: "⚠️",
+};
 
-  // TODO: Integrate with backend authentication API here.
-
-  // Form validation rules
-  const validationRules = {
-    username: {
-      minLength: 3,
-      maxLength: 20,
-      pattern: /^[a-zA-Z0-9_]+$/,
-      message:
-        "Username must be 3-20 characters and contain only letters, numbers, and underscores",
-    },
-    password: {
-      minLength: 6,
-      maxLength: 50,
-      message: "Password must be at least 6 characters long",
-    },
-  };
-
-  // Add event listeners
-  if (loginForm) {
-    loginForm.addEventListener("submit", handleLogin);
-  }
-
-  if (usernameInput) {
-    usernameInput.addEventListener("input", () => validateField("username"));
-    usernameInput.addEventListener("blur", () => validateField("username"));
-    usernameInput.addEventListener("focus", clearFieldError);
-  }
-
-  if (passwordInput) {
-    passwordInput.addEventListener("input", () => validateField("password"));
-    passwordInput.addEventListener("blur", () => validateField("password"));
-    passwordInput.addEventListener("focus", clearFieldError);
-    passwordInput.addEventListener("keypress", handlePasswordKeypress);
-  }
-
-  if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener("click", handleForgotPassword);
-  }
-
-  if (registerLink) {
-    registerLink.addEventListener("click", handleRegisterClick);
-  }
-
-  // Load saved username if remember me was checked
-  loadSavedCredentials();
-
-  // Add input animations
-  addInputAnimations();
-
-  // Handle login form submission
-  const handleLogin = function(event) {
-    event.preventDefault();
-
-    const username = usernameInput.value.trim();
-    const password = passwordInput.value;
-    const remember = rememberCheckbox.checked;
-
-    // Clear previous errors
-    clearAllErrors();
-
-    // Validate form
-    if (!validateForm()) {
-      showError("Please fix the errors above and try again.");
-      return;
+// Dynamic Styles
+const dynamicStyles = `
+    /* Enhanced form styles */
+    .form-control.error {
+        border-color: #dc3545 !important;
+        box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
     }
-
-    // Show loading state
-    setLoadingState(true);
-
-    // Simulate API call delay
-    setTimeout(() => {
-      const user = authenticateUser(username, password);
-
-      if (user) {
-        handleSuccessfulLogin(user, remember);
-      } else {
-        handleFailedLogin();
-      }
-
-      setLoadingState(false);
-    }, 1500);
-  };
-
-  // Validate individual field
-  const validateField = function(fieldName) {
-    const input = document.getElementById(fieldName);
-    const value = input.value.trim();
-    const rules = validationRules[fieldName];
-
-    // Clear previous error
-    clearFieldError(input);
-
-    // Check if field is empty
-    if (!value) {
-      showFieldError(
-        input,
-        `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`
-      );
-      return false;
+    
+    .form-control.success {
+        border-color: #28a745 !important;
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
     }
-
-    // Check minimum length
-    if (rules.minLength && value.length < rules.minLength) {
-      showFieldError(
-        input,
-        `${
-          fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
-        } must be at least ${rules.minLength} characters`
-      );
-      return false;
+    
+    .error-message {
+        color: #dc3545;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+        display: block;
+        animation: slideDown 0.3s ease-out;
     }
-
-    // Check maximum length
-    if (rules.maxLength && value.length > rules.maxLength) {
-      showFieldError(
-        input,
-        `${
-          fieldName.charAt(0).toUpperCase() + fieldName.slice(1)
-        } must not exceed ${rules.maxLength} characters`
-      );
-      return false;
+    
+    .alert-message {
+        padding: 1rem;
+        margin-bottom: 1rem;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        animation: slideDown 0.3s ease-out;
     }
-
-    // Check pattern
-    if (rules.pattern && !rules.pattern.test(value)) {
-      showFieldError(input, rules.message);
-      return false;
+    
+    .alert-error {
+        background-color: #f8d7da;
+        border: 1px solid #f5c6cb;
+        color: #721c24;
     }
-
-    // Show success state
-    showFieldSuccess(input);
-    return true;
-  };
-
-  // Validate entire form
-  const validateForm = function() {
-    const usernameValid = validateField("username");
-    const passwordValid = validateField("password");
-    return usernameValid && passwordValid;
-  };
-
-  // Authenticate user (replace with real backend call)
-  const authenticateUser = function(username, password) {
-    // TODO: Replace with real backend authentication logic
-    return null;
-  };
-
-  // Handle successful login
-  const handleSuccessfulLogin = function(user, remember) {
-    // Save credentials if remember me is checked
-    if (remember) {
-      localStorage.setItem("rememberedUsername", user.username);
-      localStorage.setItem("rememberMe", "true");
-    } else {
-      localStorage.removeItem("rememberedUsername");
-      localStorage.removeItem("rememberMe");
-      sessionStorage.setItem("sessionUsername", username);
-      sessionStorage.setItem("sessionPassword", password);
+    
+    .alert-success {
+        background-color: #d4edda;
+        border: 1px solid #c3e6cb;
+        color: #155724;
     }
-
-    // Save user session
-    sessionStorage.setItem("currentUser", JSON.stringify(user));
-    sessionStorage.setItem("loginTime", new Date().toISOString());
-
-    // Show success message
-    showSuccessMessage(`Welcome back, ${user.name}! Redirecting...`);
-
-    // Redirect after delay
-    setTimeout(() => {
-      // In a real app, redirect to dashboard or main page
-      window.location.href = "../html/index.html";
-    }, 2000);
-  };
-
-  // Handle failed login
-  const handleFailedLogin = function() {
-    showError("Invalid username or password. Please try again.");
-
-    // Add shake animation to form
-    const formSection = document.querySelector(".form-section");
-    formSection.classList.add("shake");
-    setTimeout(() => {
-      formSection.classList.remove("shake");
-    }, 600);
-
-    // Clear password field
-    passwordInput.value = "";
-    passwordInput.focus();
-  };
-
-  // Handle password keypress (Enter to submit)
-  const handlePasswordKeypress = function(event) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      loginForm.dispatchEvent(new Event("submit"));
+    
+    .alert-info {
+        background-color: #d1ecf1;
+        border: 1px solid #bee5eb;
+        color: #0c5460;
+        white-space: pre-line;
     }
-  };
-
-  // Handle forgot password click
-  const handleForgotPassword = function(event) {
-    event.preventDefault();
-
-    const username = usernameInput.value.trim();
-    if (!username) {
-      showInfo(
-        'Please enter your username first, then click "Forgot password?"'
-      );
-      usernameInput.focus();
-      return;
+    
+    .alert-close {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        margin-left: auto;
+        opacity: 0.7;
     }
-
-    // Simulate password reset
-    showInfo(
-      `Password reset instructions have been sent to the email associated with "${username}".`
-    );
-  };
-
-  // Handle register link click
-  const handleRegisterClick = function(event) {
-    event.preventDefault();
-    showInfo(
-      "Registration feature coming soon!"
-    );
-  };
-
-  // Load saved credentials
-  const loadSavedCredentials = function() {
-    const rememberedUsername = localStorage.getItem("rememberedUsername");
-    const rememberMe = localStorage.getItem("rememberMe") === "true";
-
-    if (rememberMe && rememberedUsername) {
-      usernameInput.value = rememberedUsername;
-      rememberCheckbox.checked = true;
+    
+    .alert-close:hover {
+        opacity: 1;
     }
-  };
-
-  // Add input animations and enhancements
-  const addInputAnimations = function() {
-    const inputs = document.querySelectorAll(".form-control");
-
-    inputs.forEach((input) => {
-      // Add floating label effect
-      input.addEventListener("focus", function () {
-        this.parentElement.classList.add("focused");
-      });
-
-      input.addEventListener("blur", function () {
-        if (!this.value) {
-          this.parentElement.classList.remove("focused");
+    
+    .btn-login.loading {
+        opacity: 0.7;
+        cursor: not-allowed;
+    }
+    
+    .shake {
+        animation: shake 0.6s ease-in-out;
+    }
+    
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
         }
-      });
-
-      // Check if input has value on load
-      if (input.value) {
-        input.parentElement.classList.add("focused");
-      }
-    });
-  };
-
-  // Set loading state
-  const setLoadingState = function(loading) {
-    const btnText = loginButton.querySelector(".btn-text");
-    const btnIcon = loginButton.querySelector(".btn-icon");
-
-    if (loading) {
-      loginButton.disabled = true;
-      loginButton.classList.add("loading");
-      btnText.textContent = "Signing In...";
-      btnIcon.textContent = "⏳";
-    } else {
-      loginButton.disabled = false;
-      loginButton.classList.remove("loading");
-      btnText.textContent = "Sign In";
-      btnIcon.textContent = "→";
-    }
-  };
-
-  // Show field error
-  const showFieldError = function(input, message) {
-    input.classList.add("error");
-    input.classList.remove("success");
-
-    // Remove existing error message
-    const existingError = input.parentElement.querySelector(".error-message");
-    if (existingError) {
-      existingError.remove();
-    }
-
-    // Add error message
-    const errorDiv = document.createElement("div");
-    errorDiv.className = "error-message";
-    errorDiv.textContent = message;
-    input.parentElement.appendChild(errorDiv);
-  };
-
-  // Show field success
-  const showFieldSuccess = function(input) {
-    input.classList.add("success");
-    input.classList.remove("error");
-
-    // Remove error message
-    const errorMessage = input.parentElement.querySelector(".error-message");
-    if (errorMessage) {
-      errorMessage.remove();
-    }
-  };
-
-  // Clear field error
-  const clearFieldError = function(input) {
-    if (input.target) input = input.target; // Handle event object
-
-    input.classList.remove("error", "success");
-    const errorMessage = input.parentElement.querySelector(".error-message");
-    if (errorMessage) {
-      errorMessage.remove();
-    }
-  };
-
-  // Clear all errors
-  const clearAllErrors = function() {
-    const errorMessages = document.querySelectorAll(".error-message");
-    errorMessages.forEach((msg) => msg.remove());
-
-    const errorInputs = document.querySelectorAll(".form-control.error");
-    errorInputs.forEach((input) => input.classList.remove("error"));
-
-    const alertMessages = document.querySelectorAll(".alert-message");
-    alertMessages.forEach((msg) => msg.remove());
-  };
-
-  // Show error message
-  const showError = function(message) {
-    showAlert(message, "error");
-  };
-
-  // Show success message
-  const showSuccessMessage = function(message) {
-    showAlert(message, "success");
-  };
-
-  // Show info message
-  const showInfo = function(message) {
-    showAlert(message, "info");
-  };
-
-  // Show alert message
-  const showAlert = function(message, type) {
-    // Remove existing alerts
-    const existingAlerts = document.querySelectorAll(".alert-message");
-    existingAlerts.forEach((alert) => alert.remove());
-
-    // Create alert element
-    const alertDiv = document.createElement("div");
-    alertDiv.className = `alert-message alert-${type}`;
-    alertDiv.innerHTML = `
-            <span class="alert-icon">${getAlertIcon(type)}</span>
-            <span class="alert-text">${message}</span>
-            <button class="alert-close" onclick="this.parentElement.remove()">×</button>
-        `;
-
-    // Insert alert at the top of the form
-    const formSection = document.querySelector(".form-section");
-    formSection.insertBefore(alertDiv, formSection.firstChild);
-
-    // Auto-remove after delay (except for success messages)
-    if (type !== "success") {
-      setTimeout(() => {
-        if (alertDiv.parentElement) {
-          alertDiv.remove();
+        to {
+            opacity: 1;
+            transform: translateY(0);
         }
-      }, 5000);
     }
-  };
+    
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    
+    .form-group.focused .form-label {
+        color: #1a6c7a;
+        transform: translateY(-2px);
+    }
+`;
 
-  // Get alert icon based on type
-  const getAlertIcon = function(type) {
-    const icons = {
-      error: "❌",
-      success: "✅",
-      info: "ℹ️",
-      warning: "⚠��",
-    };
-    return icons[type] || "ℹ️";
-  };
-;
-
-// Utility functions for session management
-const getCurrentUser = () => {
-  const userStr = sessionStorage.getItem("currentUser");
+// Function declarations
+function getCurrentUser() {
+  const userStr = localStorage.getItem("currentUser");
   return userStr ? JSON.parse(userStr) : null;
-};
+}
 
-const isUserLoggedIn = () => {
+function isUserLoggedIn() {
   return getCurrentUser() !== null;
-};
+}
 
-const logout = () => {
-  sessionStorage.removeItem("currentUser");
-  sessionStorage.removeItem("loginTime");
+function logout() {
+  localStorage.removeItem("currentUser");
+  localStorage.removeItem("loginTime");
   window.location.href = "Log-in.html";
   sessionStorage.removeItem("sessionUsername");
   sessionStorage.removeItem("sessionPassword");
-};
+}
 
-// Check if user is already logged in (redirect if needed)
-const checkAuthStatus = () => {
+function checkAuthStatus() {
   if (isUserLoggedIn()) {
-    const loginTime = new Date(sessionStorage.getItem("loginTime"));
+    const loginTime = new Date(localStorage.getItem("loginTime"));
     const now = new Date();
     const hoursSinceLogin = (now - loginTime) / (1000 * 60 * 60);
 
-    // Auto-logout after 24 hours
-    if (hoursSinceLogin > 24) {
+    if (hoursSinceLogin > AUTO_LOGOUT_HOURS) {
       logout();
     } else {
-      // User is still logged in, redirect to main page
       window.location.href = "../html/index.html";
     }
   }
-};
+}
 
-// Call auth check when page loads
+function addDynamicStyles() {
+  const style = document.createElement("style");
+  style.textContent = dynamicStyles;
+  document.head.appendChild(style);
+}
+
+function initializeLogin() {
+  initializeDOMElements();
+  addEventListeners();
+  loadSavedCredentials();
+  addInputAnimations();
+}
+
+function initializeDOMElements() {
+  loginForm = document.querySelector(".login-form");
+  usernameInput = document.getElementById("username");
+  passwordInput = document.getElementById("password");
+  rememberCheckbox = document.getElementById("remember");
+  loginButton = document.querySelector(".btn-login");
+  forgotPasswordLink = document.querySelector(".forgot-password");
+  registerLink = document.querySelector(".register-link");
+}
+
+function validateField(fieldName) {
+  let input;
+  if (fieldName === "username") {
+    input = usernameInput;
+  } else {
+    input = passwordInput;
+  }
+  const rules = validationRules[fieldName];
+  const value = input.value.trim();
+
+  if (value.length < rules.minLength || value.length > rules.maxLength) {
+    showFieldError(input, rules.message);
+    return false;
+  }
+
+  if (fieldName === "username" && !rules.pattern.test(value)) {
+    showFieldError(input, rules.message);
+    return false;
+  }
+
+  showFieldSuccess(input);
+  return true;
+}
+
+function addEventListeners() {
+  if (loginForm) {
+    loginForm.addEventListener("submit", handleLogin);
+  }
+
+  if (usernameInput) {
+    usernameInput.addEventListener("input", () => validateField("username"));
+    usernameInput.addEventListener("blur", () => validateField("username"));
+    usernameInput.addEventListener("focus", clearFieldError);
+  }
+
+  if (passwordInput) {
+    passwordInput.addEventListener("input", () => validateField("password"));
+    passwordInput.addEventListener("blur", () => validateField("password"));
+    passwordInput.addEventListener("focus", clearFieldError);
+    passwordInput.addEventListener("keypress", handlePasswordKeypress);
+  }
+
+  if (forgotPasswordLink) {
+    forgotPasswordLink.addEventListener("click", handleForgotPassword); 
+  }
+
+  if (registerLink) {
+    registerLink.addEventListener("click", handleRegisterClick);
+  }
+}
+
+function validateForm() {
+  return validateField("username") && validateField("password");
+}
+
+function authenticateUser(username, password) {
+  // TODO: Implement actual authentication logic
+  return Promise.resolve({ username, id: 1 });
+}
+
+function handleSuccessfulLogin(user, remember) {
+  localStorage.setItem("currentUser", JSON.stringify(user));
+  localStorage.setItem("loginTime", new Date().toISOString());
+
+  if (remember) {
+    localStorage.setItem("savedUsername", user.username);
+    localStorage.setItem("savedPassword", btoa(passwordInput.value));
+  } else {
+    localStorage.removeItem("savedUsername");
+    localStorage.removeItem("savedPassword");
+  }
+
+  showSuccessMessage("Login successful! Redirecting...");
+
+  setTimeout(() => {
+    window.location.href = "../html/index.html";
+  }, REDIRECT_DELAY_MS);
+}
+
+function handleFailedLogin() {
+  setLoadingState(false);
+  showError("Invalid username or password");
+  passwordInput.value = "";
+  loginForm.classList.add("shake");
+
+  setTimeout(() => {
+    loginForm.classList.remove("shake");
+  }, 600);
+}
+
+function handlePasswordKeypress(event) {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    loginButton.click();
+  }
+}
+
+function handleForgotPassword(event) {
+  event.preventDefault();
+  showInfo(`To reset your password:
+1. Contact support at support@tajweed.com
+2. Provide your username
+3. Follow the instructions in the reset email`);
+}
+
+function handleRegisterClick(event) {
+  event.preventDefault();
+  showInfo(
+    "Registration is currently by invitation only. Please contact an administrator."
+  );
+}
+
+function loadSavedCredentials() {
+  const savedUsername = localStorage.getItem("savedUsername");
+  const savedPassword = localStorage.getItem("savedPassword");
+
+  if (savedUsername && savedPassword) {
+    usernameInput.value = savedUsername;
+    passwordInput.value = atob(savedPassword);
+    rememberCheckbox.checked = true;
+  }
+}
+
+function addInputAnimations() {
+  const formGroups = document.querySelectorAll(".form-group");
+
+  formGroups.forEach((group) => {
+    const input = group.querySelector(".form-control");
+    const label = group.querySelector(".form-label");
+
+    if (input && label) {
+      input.addEventListener("focus", () => {
+        group.classList.add("focused");
+      });
+
+      input.addEventListener("blur", () => {
+        if (!input.value) {
+          group.classList.remove("focused");
+        }
+      });
+
+      // Set initial state
+      if (input.value) {
+        group.classList.add("focused");
+      }
+    }
+  });
+}
+
+function setLoadingState(loading) {
+  if (loading) {
+    loginButton.disabled = true;
+    loginButton.classList.add("loading");
+    loginButton.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            Logging in...
+        `;
+  } else {
+    loginButton.disabled = false;
+    loginButton.classList.remove("loading");
+    loginButton.innerHTML = "Log In";
+  }
+}
+
+function showFieldError(input, message) {
+  const formGroup = input.closest(".form-group");
+  input.classList.remove("success");
+  input.classList.add("error");
+
+  let errorMessage = formGroup.querySelector(".error-message");
+  if (!errorMessage) {
+    errorMessage = document.createElement("span");
+    errorMessage.className = "error-message";
+    formGroup.appendChild(errorMessage);
+  }
+  errorMessage.textContent = message;
+}
+
+function showFieldSuccess(input) {
+  const formGroup = input.closest(".form-group");
+  input.classList.remove("error");
+  input.classList.add("success");
+
+  const errorMessage = formGroup.querySelector(".error-message");
+  if (errorMessage) {
+    errorMessage.remove();
+  }
+}
+
+function clearFieldError() {
+  const input = this;
+  const formGroup = input.closest(".form-group");
+
+  input.classList.remove("error", "success");
+  const errorMessage = formGroup.querySelector(".error-message");
+  if (errorMessage) {
+    errorMessage.remove();
+  }
+}
+
+function clearAllErrors() {
+  const inputs = loginForm.querySelectorAll(".form-control");
+  inputs.forEach((input) => {
+    input.classList.remove("error", "success");
+    const formGroup = input.closest(".form-group");
+    const errorMessage = formGroup.querySelector(".error-message");
+    if (errorMessage) {
+      errorMessage.remove();
+    }
+  });
+}
+
+function showError(message) {
+  showAlert(message, "error");
+}
+
+function showSuccessMessage(message) {
+  showAlert(message, "success");
+}
+
+function showInfo(message) {
+  showAlert(message, "info");
+}
+
+function showAlert(message, type) {
+  const existingAlert = document.querySelector(".alert-message");
+  if (existingAlert) {
+    existingAlert.remove();
+  }
+
+  const alert = document.createElement("div");
+  alert.className = `alert-message alert-${type}`;
+  alert.innerHTML = `
+        ${getAlertIcon(type)}
+        <span>${message}</span>
+        <button class="alert-close" aria-label="Close">×</button>
+    `;
+
+  loginForm.insertAdjacentElement("beforebegin", alert);
+
+  const closeButton = alert.querySelector(".alert-close");
+  closeButton.addEventListener("click", () => alert.remove());
+
+  setTimeout(() => {
+    if (alert.parentElement) {
+      alert.remove();
+    }
+  }, ALERT_TIMEOUT_MS);
+}
+
+function getAlertIcon(type) {
+  return alertIcons[type] || "";
+}
+
+// Event listeners
 document.addEventListener("DOMContentLoaded", function () {
-  // Only check auth status if we're on the login page
+  initializeLogin();
+  addDynamicStyles();
   if (window.location.pathname.includes("Log-in.html")) {
     checkAuthStatus();
   }
 });
-
-// Add CSS styles dynamically for enhanced UX
-const addDynamicStyles = () => {
-  const style = document.createElement("style");
-  style.textContent = `
-        /* Enhanced form styles */
-        .form-control.error {
-            border-color: #dc3545 !important;
-            box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25) !important;
-        }
-        
-        .form-control.success {
-            border-color: #28a745 !important;
-            box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25) !important;
-        }
-        
-        .error-message {
-            color: #dc3545;
-            font-size: 0.875rem;
-            margin-top: 0.25rem;
-            display: block;
-            animation: slideDown 0.3s ease-out;
-        }
-        
-        .alert-message {
-            padding: 1rem;
-            margin-bottom: 1rem;
-            border-radius: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            animation: slideDown 0.3s ease-out;
-        }
-        
-        .alert-error {
-            background-color: #f8d7da;
-            border: 1px solid #f5c6cb;
-            color: #721c24;
-        }
-        
-        .alert-success {
-            background-color: #d4edda;
-            border: 1px solid #c3e6cb;
-            color: #155724;
-        }
-        
-        .alert-info {
-            background-color: #d1ecf1;
-            border: 1px solid #bee5eb;
-            color: #0c5460;
-            white-space: pre-line;
-        }
-        
-        .alert-close {
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            margin-left: auto;
-            opacity: 0.7;
-        }
-        
-        .alert-close:hover {
-            opacity: 1;
-        }
-        
-        .btn-login.loading {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-        
-        .shake {
-            animation: shake 0.6s ease-in-out;
-        }
-        
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-            20%, 40%, 60%, 80% { transform: translateX(5px); }
-        }
-        
-        .form-group.focused .form-label {
-            color: #1a6c7a;
-            transform: translateY(-2px);
-        }
-    `;
-  document.head.appendChild(style);
-};
-
-// Add styles when DOM is loaded
-document.addEventListener("DOMContentLoaded", addDynamicStyles);
