@@ -91,6 +91,9 @@ body {
 
 /* ===== CONTENT WRAPPER ===== */
 .content-wrapper {
+  padding: 0;
+  border: #1a6c7a 6px dashed;
+  border-radius: 20px;
   max-width: 1000px;
   margin: 0 auto;
   padding: var(--spacing-lg);
@@ -155,16 +158,123 @@ body {
 /* ===== WELCOME SECTION ===== */
 .welcome-section {
   flex: 1;
-  padding: var(--spacing-xl);
+  padding: var(--spacing-lg);
   background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
   color: white;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
-  overflow: hidden;
+  overflow: hidden
+}
+/* ===== CSS IMPROVEMENTS ===== */
+body {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 0;
 }
 
+/* Content Wrapper */
+.content-wrapper {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 1rem;
+  position: relative;
+  z-index: 1;
+  border: #1a6c7a 6px dashed;
+  border-radius: 20px;
+}
+
+/* Islamic Decoration */
+.islamic-decoration {
+  animation: rotate 240s linear infinite; /* Slower rotation */
+}
+
+/* Login Container */
+.login-container {
+  min-height: 450px; /* Reduced height */
+}
+
+/* Welcome Section */
+.welcome-section {
+  padding: 1.5rem;
+}
+
+/* Form Section */
+.form-section {
+  padding: 1.5rem;
+}
+
+/* Title and Subtitle */
+.login-title {
+  margin-bottom: 0.5rem;
+}
+
+.login-subtitle {
+  margin-bottom: 1rem;
+}
+
+/* Feature Items */
+.feature-item {
+  padding: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+
+/* Form Elements */
+.form-header {
+  margin-bottom: 1rem;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-control {
+  padding: 0.75rem;
+}
+
+/* Button */
+.btn-login {
+  padding: 0.75rem;
+}
+
+/* Divider */
+.divider {
+  margin: 1rem 0;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 0.75rem;
+  }
+  
+  .welcome-section,
+  .form-section {
+    padding: 1.25rem;
+  }
+  
+  .login-container {
+    min-height: auto;
+  }
+}
+
+@media (max-width: 480px) {
+  .content-wrapper {
+    padding: 0.5rem;
+  }
+  
+  .welcome-section,
+  .form-section {
+    padding: 1rem;
+  }
+  
+  .feature-item {
+    font-size: 0.9rem;
+  }
+}
 .welcome-section::before {
   content: "";
   position: absolute;
