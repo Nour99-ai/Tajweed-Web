@@ -1,0 +1,541 @@
+/* ===== CSS RESET & BASE STYLES ===== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  :root {
+    /* Islamic Color Palette */
+    --primary-green: #1a6c7a;
+    --secondary-green: #2a8a9a;
+    --accent-teal: #40bcd8;
+    --gold: #d4af37;
+    --warm-gold: #b8860b;
+    --dark-brown: #8b4513;
+    --cream: #f5f5dc;
+    --light-cream: #fefefe;
+    --text-dark: #2c3e50;
+    --text-light: #34495e;
+    --border-light: #e0e0e0;
+    --shadow-light: rgba(0, 0, 0, 0.1);
+    --shadow-medium: rgba(0, 0, 0, 0.15);
+    --shadow-dark: rgba(0, 0, 0, 0.25);
+  
+    /* Typography */
+    --font-primary: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    --font-arabic: "Amiri", "Traditional Arabic", serif;
+    --font-size-base: 16px;
+    --line-height-base: 1.6;
+  
+    /* Spacing */
+    --spacing-xs: 0.5rem;
+    --spacing-sm: 1rem;
+    --spacing-md: 1.5rem;
+    --spacing-lg: 2rem;
+    --spacing-xl: 3rem;
+  
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+    font-size: var(--font-size-base);
+  }
+  
+  body {
+    font-family: var(--font-primary);
+    line-height: var(--line-height-base);
+    color: var(--text-dark);
+    background: linear-gradient(135deg, var(--light-cream) 0%, var(--cream) 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  /* ===== ISLAMIC DECORATION ===== */
+  .islamic-decoration {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    opacity: 0.03;
+    width: 80vw;
+    height: 80vh;
+    max-width: 800px;
+    max-height: 800px;
+    pointer-events: none;
+    color: var(--primary-green);
+  }
+  
+  .islamic-decoration svg {
+    width: 100%;
+    height: 100%;
+    animation: rotate 120s linear infinite;
+  }
+  
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  
+  
+  /* ===== CONTENT WRAPPER ===== */
+  .content-wrapper {
+    padding: 0;
+    border: #1a6c7a 6px dashed;
+    border-radius: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  /* ===== LOGIN CONTAINER ===== */
+  .login-container {
+    background: white;
+    border-radius: var(--radius-xl);
+    box-shadow: 0 20px 60px var(--shadow-medium);
+    border: 2px solid rgba(26, 108, 122, 0.1);
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    max-width: 900px;
+    min-height: 500px;
+    display: flex;
+    transition: all 0.6s ease-in-out;
+    animation: fadeInUp 0.6s ease-out;
+  }
+  
+  .login-container::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(
+      circle,
+      rgba(212, 175, 55, 0.05) 0%,
+      transparent 70%
+    );
+    animation: pulse 4s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  /* ===== WELCOME SECTION ===== */
+  .welcome-section {
+    flex: 1;
+    padding: var(--spacing-lg);
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .welcome-section::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+    animation: pulse 6s ease-in-out infinite;
+  }
+  
+  .islamic-symbol {
+    margin-bottom: var(--spacing-md);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .islamic-symbol span {
+    font-family: var(--font-arabic);
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 500;
+    display: block;
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+  }
+  
+  .login-title {
+    font-size: clamp(1.8rem, 4vw, 2.5rem);
+    font-weight: 700;
+    color: white;
+    margin-bottom: var(--spacing-sm);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .login-subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1.1rem;
+    margin-bottom: var(--spacing-lg);
+    line-height: 1.5;
+    position: relative;
+    z-index: 2;
+  }
+  
+  .features-list {
+    margin-top: var(--spacing-lg);
+    position: relative;
+    z-index: 2;
+  }
+  
+  .feature-item {
+    padding: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+  
+  .feature-item {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-sm);
+    transition: all 0.3s ease;
+  }
+  
+  .feature-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateX(5px);
+  }
+  
+  .feature-icon {
+    font-size: 1.2rem;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 0.5rem;
+    border-radius: 50%;
+  }
+  
+  /* ===== FORM SECTION ===== */
+  .form-section {
+    flex: 1;
+    padding: var(--spacing-lg);
+    background: var(--light-cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+  }
+  
+  .form-header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+  
+  .form-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-green);
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .form-header p {
+    color: var(--text-light);
+    font-size: 1rem;
+  }
+  
+  .register-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .form-group {
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .form-label {
+    font-weight: 600;
+    color: var(--text-dark);
+    margin-bottom: var(--spacing-xs);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  
+  .label-icon {
+    font-size: 1.1rem;
+    color: var(--primary-green);
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid var(--border-light);
+    border-radius: var(--radius-sm);
+    background: white;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: var(--primary-green);
+    box-shadow: 0 0 0 3px rgba(26, 108, 122, 0.1);
+  }
+  
+  .form-control::placeholder {
+    color: #a0a0a0;
+    font-style: italic;
+  }
+  
+  .btn-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 14px;
+    border: none;
+    background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+    color: white;
+    border-radius: var(--radius-sm);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .btn-login:hover {
+    background: linear-gradient(135deg, var(--secondary-green), var(--accent-teal));
+    box-shadow: 0 8px 25px rgba(26, 108, 122, 0.3);
+    transform: translateY(-2px);
+  }
+  
+  .btn-login:active {
+    transform: translateY(0);
+  }
+  
+  .btn-icon {
+    margin-left: auto;
+    transition: transform 0.3s ease;
+  }
+  
+  .btn-login:hover .btn-icon {
+    transform: translateX(5px);
+  }
+  
+  .divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    color: var(--text-light);
+    margin: var(--spacing-md) 0;
+  }
+  
+  .divider::before,
+  .divider::after {
+    content: "";
+    flex: 1;
+    border-bottom: 1px solid var(--border-light);
+  }
+  
+  .divider span {
+    padding: 0 var(--spacing-sm);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-transform: uppercase;
+  }
+  
+  .register-section {
+    text-align: center;
+    margin-top: var(--spacing-sm);
+  }
+  
+  .register-section p {
+    margin-bottom: var(--spacing-xs);
+    color: var(--text-light);
+  }
+  
+  .register-link {
+    color: var(--primary-green);
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+  
+  .register-link:hover {
+    color: var(--secondary-green);
+    border-bottom-color: var(--secondary-green);
+  }
+  
+  /* ===== ISLAMIC QUOTE ===== */
+  .islamic-quote {
+    text-align: center;
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: var(--radius-md);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    position: relative;
+    z-index: 2;
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .islamic-quote p[lang="ar"] {
+    font-family: var(--font-arabic);
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 500;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .quote-translation {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.8);
+    font-style: italic;
+    margin-bottom: 0;
+  }
+  
+  
+  /* ===== RESPONSIVE DESIGN ===== */
+  @media (max-width: 768px) {
+    .content-wrapper {
+      padding: var(--spacing-md);
+    }
+  
+    .login-container {
+      flex-direction: column;
+      min-height: auto;
+    }
+  
+    .welcome-section {
+      padding: var(--spacing-lg);
+    }
+  
+    .form-section {
+      padding: var(--spacing-lg);
+    }
+  
+    .login-title {
+      font-size: 1.8rem;
+    }
+  
+    .form-options {
+      flex-direction: column;
+      gap: var(--spacing-sm);
+      align-items: flex-start;
+    }
+  
+    .islamic-decoration {
+      width: 90vw;
+      height: 90vh;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .content-wrapper {
+      padding: var(--spacing-sm);
+    }
+  
+    .welcome-section {
+      padding: var(--spacing-md);
+    }
+  
+    .form-section {
+      padding: var(--spacing-md);
+    }
+  
+    .login-title {
+      font-size: 1.6rem;
+    }
+  
+    .feature-item {
+      font-size: 0.9rem;
+    }
+  }
+  
+  /* ===== ACCESSIBILITY ===== */
+  @media (prefers-reduced-motion: reduce) {
+    * {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  
+    .islamic-decoration svg {
+      animation: none;
+    }
+  }
+  
+  /* Focus styles for keyboard navigation */
+  a:focus,
+  button:focus,
+  input:focus {
+    outline: 2px solid var(--accent-teal);
+    outline-offset: 2px;
+  }
+  
+  /* ===== SELECTION STYLING ===== */
+  ::selection {
+    background: rgba(64, 188, 216, 0.3);
+    color: var(--primary-green);
+  }
+  
+  ::-moz-selection {
+    background: rgba(64, 188, 216, 0.3);
+    color: var(--primary-green);
+  }
+  
+  /* ===== PRINT STYLES ===== */
+  @media print {
+    .islamic-decoration {
+      display: none;
+    }
+  
+    .content-wrapper {
+      max-width: none;
+      padding: 0;
+    }
+  
+    .login-container {
+      box-shadow: none;
+      border: 1px solid var(--border-light);
+    }
+  }

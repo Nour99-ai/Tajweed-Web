@@ -4,8 +4,9 @@
 // Description: Handles user authentication, form validation, and user experience enhancements
 
 // Global DOM Elements
-let loginForm, usernameInput, passwordInput, rememberCheckbox, loginButton;
-let forgotPasswordLink, registerLink;
+let loginForm, usernameInput, passwordInput, rememberCheckbox, loginButton, registerLink, registerForm, cancelBtn, loginContainer;
+
+createAccBtn = document.getElementById("btn btn-login");
 
 // Constants
 const AUTO_LOGOUT_HOURS = 48;
@@ -182,8 +183,10 @@ function initializeDOMElements() {
   passwordInput = document.getElementById("password");
   rememberCheckbox = document.getElementById("remember");
   loginButton = document.querySelector(".btn-login");
-  forgotPasswordLink = document.querySelector(".forgot-password");
   registerLink = document.querySelector(".register-link");
+  registerForm = document.querySelector(".register-form");
+  cancelBtn = document.querySelector(".btn-cancel");
+  loginContainer = document.querySelector(".login-container");
 }
 
 function validateField(fieldName) {
@@ -228,12 +231,16 @@ function addEventListeners() {
     passwordInput.addEventListener("keypress", handlePasswordKeypress);
   }
 
-  if (forgotPasswordLink) {
-    forgotPasswordLink.addEventListener("click", handleForgotPassword); 
-  }
-
   if (registerLink) {
     registerLink.addEventListener("click", handleRegisterClick);
+  }
+
+  if (cancelBtn) {
+    cancelBtn.addEventListener("click", handleCancelRegistration);
+  }
+
+  if (registerForm) {
+    registerForm.addEventListener("submit", handleRegistrationSubmit);
   }
 }
 
@@ -241,27 +248,52 @@ function validateForm() {
   return validateField("username") && validateField("password");
 }
 
-function authenticateUser(username, password) {
-  // TODO: Implement actual authentication logic
-  return Promise.resolve({ username, id: 1 });
+function handleLogin(event) {
+  event.preventDefault();
+  
+  if (!validateForm()) {
+    return;
+  }
+
+  setLoadingState(true);
+  
+  const username = usernameInput.value.trim();
+  const password = passwordInput.value;
+  const remember = rememberCheckbox.checked;
+  
+  // Get stored users
+  const users = JSON.parse(localStorage.getItem('users')) || [];
+  
+  // Find matching user
+  const user = users.find(u => u.username === username && u.password === password);
+  
+  if (user) {
+    handleSuccessfulLogin(user, remember);
+  } else {
+    handleFailedLogin();
+  }
+  
+  setLoadingState(false);
 }
 
 function handleSuccessfulLogin(user, remember) {
-  localStorage.setItem("currentUser", JSON.stringify(user));
-  localStorage.setItem("loginTime", new Date().toISOString());
-
+  // Store current user
+  localStorage.setItem('currentUser', JSON.stringify(user));
+  localStorage.setItem('loginTime', new Date().toISOString());
+  
+  // Save credentials if remember is checked
   if (remember) {
-    localStorage.setItem("savedUsername", user.username);
-    localStorage.setItem("savedPassword", btoa(passwordInput.value));
+    localStorage.setItem('savedUsername', user.username);
+    localStorage.setItem('savedPassword', user.password);
   } else {
-    localStorage.removeItem("savedUsername");
-    localStorage.removeItem("savedPassword");
+    localStorage.removeItem('savedUsername');
+    localStorage.removeItem('savedPassword');
   }
-
-  showSuccessMessage("Login successful! Redirecting...");
-
+  
+  showSuccessMessage('Login successful! Redirecting...');
+  
   setTimeout(() => {
-    window.location.href = "../html/index.html";
+    window.location.href = '../html/index.html';
   }, REDIRECT_DELAY_MS);
 }
 
@@ -278,24 +310,70 @@ function handleFailedLogin() {
 
 function handlePasswordKeypress(event) {
   if (event.key === "Enter") {
-    event.preventDefault();
-    loginButton.click();
+    handleLogin(event);
   }
-}
-
-function handleForgotPassword(event) {
-  event.preventDefault();
-  showInfo(`To reset your password:
-1. Contact support at support@tajweed.com
-2. Provide your username
-3. Follow the instructions in the reset email`);
 }
 
 function handleRegisterClick(event) {
   event.preventDefault();
-  showInfo(
-    "Registration is currently by invitation only. Please contact an administrator."
-  );
+  loginContainer.classList.add("flipped");
+  loginForm.style.display = "none";
+  registerForm.style.display = "flex";
+  clearAllErrors();
+}
+
+function handleCancelRegistration() {
+  loginContainer.classList.remove("flipped");
+  loginForm.style.display = "block";
+  registerForm.style.display = "none";
+  clearAllErrors();
+}
+
+function handleRegistrationSubmit(event) {
+  event.preventDefault();
+  
+  const username = document.getElementById('reg-username').value.trim();
+  const email = document.getElementById('reg-email').value.trim();
+  const password = document.getElementById('reg-password').value;
+  const confirmPassword = document.getElementById('reg-confirm').value;
+  
+  // Validate passwords match
+  if (password !== confirmPassword) {
+    showError('Passwords do not match!');
+    return;
+  }
+  
+  // Get existing users or initialize empty array
+  let users = JSON.parse(localStorage.getItem('users')) || [];
+  
+  // Check if username already exists
+  if (users.some(u => u.username === username)) {
+    showError('Username already exists!');
+    return;
+  }
+  
+  // Create new user
+  const newUser = {
+    username: username,
+    email: email,
+    password: password
+  };
+  
+  // Add to users array
+  users.push(newUser);
+  
+  // Save updated users array
+  localStorage.setItem('users', JSON.stringify(users));
+  
+  // Also set as current user
+  localStorage.setItem('currentUser', JSON.stringify(newUser));
+  localStorage.setItem('loginTime', new Date().toISOString());
+  
+  showSuccessMessage('Registration successful! Redirecting...');
+  
+  setTimeout(() => {
+    window.location.href = '../html/index.html';
+  }, REDIRECT_DELAY_MS);
 }
 
 function loadSavedCredentials() {
@@ -334,6 +412,7 @@ function addInputAnimations() {
     }
   });
 }
+
 
 function setLoadingState(loading) {
   if (loading) {
