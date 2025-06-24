@@ -4,9 +4,17 @@
 // Description: Handles user authentication, form validation, and user experience enhancements
 
 // Global DOM Elements
-let loginForm, usernameInput, passwordInput, rememberCheckbox, loginButton, registerLink, registerForm, cancelBtn, loginContainer;
+let loginForm,
+  usernameInput,
+  passwordInput,
+  rememberCheckbox,
+  loginButton,
+  registerLink,
+  registerForm,
+  cancelBtn,
+  loginContainer;
 
-createAccBtn = document.getElementById("btn btn-login");
+createAccBtn = document.getElementsByClassName("btn btn-login");
 
 // Constants
 const AUTO_LOGOUT_HOURS = 48;
@@ -134,7 +142,7 @@ const dynamicStyles = `
 
 // Function declarations
 function getCurrentUser() {
-  const userStr = localStorage.getItem("currentUser");
+  const userStr = localStorage.getItem("users");
   return userStr ? JSON.parse(userStr) : null;
 }
 
@@ -250,50 +258,53 @@ function validateForm() {
 
 function handleLogin(event) {
   event.preventDefault();
-  
+
   if (!validateForm()) {
     return;
   }
 
   setLoadingState(true);
-  
+
   const username = usernameInput.value.trim();
   const password = passwordInput.value;
   const remember = rememberCheckbox.checked;
-  
+
   // Get stored users
-  const users = JSON.parse(localStorage.getItem('users')) || [];
-  
+  const users = JSON.parse(localStorage.getItem("users")) || [];
+
   // Find matching user
-  const user = users.find(u => u.username === username && u.password === password);
-  
+  const user = users.find(
+    (u) => u.username === username && u.password === password
+  );
+
   if (user) {
     handleSuccessfulLogin(user, remember);
   } else {
     handleFailedLogin();
   }
-  
+
   setLoadingState(false);
 }
 
 function handleSuccessfulLogin(user, remember) {
   // Store current user
-  localStorage.setItem('currentUser', JSON.stringify(user));
-  localStorage.setItem('loginTime', new Date().toISOString());
-  
+  localStorage.setItem("currentUser", JSON.stringify(user));
+  localStorage.setItem("loginTime", new Date().toISOString());
+
   // Save credentials if remember is checked
   if (remember) {
-    localStorage.setItem('savedUsername', user.username);
-    localStorage.setItem('savedPassword', user.password);
+    localStorage.setItem("savedUsername", user.username);
+    localStorage.setItem("savedPassword", user.password);
+    location.assign("/html/index.html");
   } else {
-    localStorage.removeItem('savedUsername');
-    localStorage.removeItem('savedPassword');
+    localStorage.removeItem("savedUsername");
+    localStorage.removeItem("savedPassword");
   }
-  
-  showSuccessMessage('Login successful! Redirecting...');
-  
+
+  showSuccessMessage("Login successful! Redirecting...");
+
   setTimeout(() => {
-    window.location.href = '../html/index.html';
+    window.location.href = "../html/index.html";
   }, REDIRECT_DELAY_MS);
 }
 
@@ -331,48 +342,48 @@ function handleCancelRegistration() {
 
 function handleRegistrationSubmit(event) {
   event.preventDefault();
-  
-  const username = document.getElementById('reg-username').value.trim();
-  const email = document.getElementById('reg-email').value.trim();
-  const password = document.getElementById('reg-password').value;
-  const confirmPassword = document.getElementById('reg-confirm').value;
-  
+
+  const username = document.getElementById("reg-username").value.trim();
+  const email = document.getElementById("reg-email").value.trim();
+  const password = document.getElementById("reg-password").value;
+  const confirmPassword = document.getElementById("reg-confirm").value;
+
   // Validate passwords match
   if (password !== confirmPassword) {
-    showError('Passwords do not match!');
+    showError("Passwords do not match!");
     return;
   }
-  
+
   // Get existing users or initialize empty array
-  let users = JSON.parse(localStorage.getItem('users')) || [];
-  
+  let users = JSON.parse(localStorage.getItem("users")) || [];
+
   // Check if username already exists
-  if (users.some(u => u.username === username)) {
-    showError('Username already exists!');
+  if (users.some((u) => u.username === username)) {
+    showError("Username already exists!");
     return;
   }
-  
+
   // Create new user
   const newUser = {
     username: username,
     email: email,
-    password: password
+    password: password,
   };
-  
+
   // Add to users array
   users.push(newUser);
-  
+
   // Save updated users array
-  localStorage.setItem('users', JSON.stringify(users));
-  
+  localStorage.setItem("users", JSON.stringify(users));
+
   // Also set as current user
-  localStorage.setItem('currentUser', JSON.stringify(newUser));
-  localStorage.setItem('loginTime', new Date().toISOString());
-  
-  showSuccessMessage('Registration successful! Redirecting...');
-  
+  localStorage.setItem("currentUser", JSON.stringify(newUser));
+  localStorage.setItem("loginTime", new Date().toISOString());
+
+  showSuccessMessage("Registration successful! Redirecting...");
+
   setTimeout(() => {
-    window.location.href = '../html/index.html';
+    window.location.href = "../html/index.html";
   }, REDIRECT_DELAY_MS);
 }
 
@@ -412,7 +423,6 @@ function addInputAnimations() {
     }
   });
 }
-
 
 function setLoadingState(loading) {
   if (loading) {
@@ -527,3 +537,16 @@ document.addEventListener("DOMContentLoaded", function () {
     checkAuthStatus();
   }
 });
+
+//now onclick use the function handleLogin(event)
+document
+  .getElementsByClassName("btn btn-login")
+  .addEventListener("click", function (event) {
+    event.preventDefault();
+    handleLogin(event);
+  });
+
+if (localStorage.length > 0) {
+  window.prompt("You already have an account!");
+  location.assign("/html/index.html");
+}

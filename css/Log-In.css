@@ -88,7 +88,6 @@ body {
   }
 }
 
-
 /* ===== CONTENT WRAPPER ===== */
 .content-wrapper {
   padding: var(--spacing-lg);
@@ -144,7 +143,6 @@ body {
   flex-direction: row-reverse;
 }
 
-
 .login-container::before {
   content: "";
   position: absolute;
@@ -161,7 +159,8 @@ body {
 }
 
 @keyframes pulse {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.3;
   }
   50% {
@@ -173,7 +172,11 @@ body {
 .welcome-section {
   flex: 1;
   padding: var(--spacing-xl);
-  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--secondary-green)
+  );
   color: white;
   display: flex;
   flex-direction: column;
@@ -201,7 +204,11 @@ body {
   left: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+  background: radial-gradient(
+    circle,
+    rgba(255, 255, 255, 0.1) 0%,
+    transparent 70%
+  );
   animation: pulse 6s ease-in-out infinite;
 }
 
@@ -410,7 +417,11 @@ body {
 .btn-login {
   width: 100%;
   padding: var(--spacing-md);
-  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--secondary-green)
+  );
   color: white;
   border: none;
   border-radius: var(--radius-md);
@@ -427,7 +438,11 @@ body {
 }
 
 .btn-login:hover {
-  background: linear-gradient(135deg, var(--secondary-green), var(--accent-teal));
+  background: linear-gradient(
+    135deg,
+    var(--secondary-green),
+    var(--accent-teal)
+  );
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(26, 108, 122, 0.4);
 }
@@ -459,7 +474,12 @@ body {
   left: 0;
   right: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-light),
+    transparent
+  );
 }
 
 .divider span {
@@ -531,7 +551,11 @@ body {
   bottom: 30px;
   right: 30px;
   z-index: 100;
-  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--secondary-green)
+  );
   color: white;
   border: none;
   border-radius: 50%;
@@ -544,7 +568,11 @@ body {
 }
 
 .arrow-up:hover {
-  background: linear-gradient(135deg, var(--secondary-green), var(--accent-teal));
+  background: linear-gradient(
+    135deg,
+    var(--secondary-green),
+    var(--accent-teal)
+  );
   transform: scale(1.1);
   box-shadow: 0 6px 20px rgba(26, 108, 122, 0.4);
 }
@@ -672,7 +700,11 @@ input:focus {
   color: var(--primary-green) !important;
 }
 .login-container.flipped .form-section {
-  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--secondary-green)
+  );
   color: white;
   transition: background 0.5s, color 0.5s;
 }
@@ -683,9 +715,9 @@ input:focus {
   color: white !important;
 }
 .login-container.flipped .form-section .form-control {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255, 255, 255, 0.1);
   color: white;
-  border-color: rgba(255,255,255,0.3);
+  border-color: rgba(255, 255, 255, 0.3);
 }
 .login-container.flipped .form-section .form-control::placeholder {
   color: #e0e0e0;

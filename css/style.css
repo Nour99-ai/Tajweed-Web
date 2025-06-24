@@ -598,7 +598,11 @@ button:focus {
   bottom: 30px;
   right: 30px;
   z-index: 1000;
-  background: linear-gradient(135deg, var(--primary-green), var(--secondary-green));
+  background: linear-gradient(
+    135deg,
+    var(--primary-green),
+    var(--secondary-green)
+  );
   color: white;
   border: none;
   border-radius: 50%;
@@ -635,13 +639,18 @@ button:focus {
 }
 
 .arrow-up::before {
-  content: '';
+  content: "";
   position: absolute;
   top: -2px;
   left: -2px;
   right: -2px;
   bottom: -2px;
-  background: linear-gradient(45deg, var(--gold), var(--accent-teal), var(--primary-green));
+  background: linear-gradient(
+    45deg,
+    var(--gold),
+    var(--accent-teal),
+    var(--primary-green)
+  );
   border-radius: 50%;
   z-index: -1;
   opacity: 0;
@@ -659,11 +668,13 @@ button:focus {
 }
 
 @keyframes pulse-attention {
-  0%, 100% {
+  0%,
+  100% {
     box-shadow: 0 6px 20px rgba(26, 108, 122, 0.4);
   }
   50% {
-    box-shadow: 0 6px 20px rgba(26, 108, 122, 0.4), 0 0 0 10px rgba(26, 108, 122, 0.1);
+    box-shadow: 0 6px 20px rgba(26, 108, 122, 0.4),
+      0 0 0 10px rgba(26, 108, 122, 0.1);
   }
 }
 
