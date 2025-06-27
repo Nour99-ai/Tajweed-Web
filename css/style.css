@@ -104,6 +104,7 @@ p {
 /* ===== NAVBAR STYLES ===== */
 .navbar-container {
   position: sticky;
+
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 20px var(--shadow-medium);
@@ -184,7 +185,7 @@ p {
 }
 
 /* ===== HEADER STYLES ===== */
-#header {
+#header { 
   text-align: center;
   padding: var(--spacing-xl) var(--spacing-lg);
   background: linear-gradient(
@@ -196,6 +197,7 @@ p {
   margin-bottom: var(--spacing-xl);
   border: 2px solid rgba(26, 108, 122, 0.1);
   position: relative;
+
   overflow: hidden;
 }
 
@@ -633,6 +635,10 @@ button:focus {
 
 .arrow-up:active,
 .arrow-up-active {
+  position: fixed;
+  margin: 20px;
+  bottom: 0px;
+  right: 0px;
   transform: translateY(-1px) scale(0.95);
   box-shadow: 0 4px 15px rgba(26, 108, 122, 0.6);
   background: linear-gradient(135deg, var(--gold), var(--warm-gold));
